@@ -1,9 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Poppins:300);
 
-
 body {
     background: #38b6ff;
-    /* background: linear-gradient(to left, #2164b1, rgb(58, 57, 138)); */
     font-family: "Poppins", sans-serif;
     margin-top: 5%;
 }
@@ -58,7 +56,6 @@ p {
     position: relative;
     z-index: 1;
     background: #FFFFFF;
-    /* max-width: 360px; */
     margin: 0 auto 100px;
     padding: 45px;
     text-align: center;
@@ -66,10 +63,9 @@ p {
     border-radius: 12px;
 }
 
-#userEmpty,
-#passEmpty {
+.form .error{
     color: red;
-    padding: 0px 0px 0px 5px;
+    padding: 0px 0px 0px 3px;
     text-align: left;
     font-size: smaller;
 }
@@ -82,7 +78,6 @@ textarea {
     background: #f2f2f2;
     width: 100%;
     border: 0;
-    /* margin: 0 0 30px; */
     padding: 20px;
     box-sizing: border-box;
     font-size: 14px;
@@ -124,4 +119,8 @@ textarea {
 
 .form .register-form {
     display: none;
+}
+
+.form .login-page .error{
+    color: red;
 }

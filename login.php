@@ -1,3 +1,55 @@
+<?php
+    function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+    $errName = $errPassword = "";
+    $username = $password = "";
+    $errorCheck = TRUE;
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $username = $_POST['username'];
+        $password = $_POST['password'];
+        if (empty($username)) {
+            $errName = "*Username Required";
+            $errorCheck = FALSE;
+        } else {
+            $username = test_input($username);
+            if (!preg_match("/^[a-zA-Z-' ]*$/",$username)) {
+                $errName = "*Only letters and white space allowed";
+                $errorCheck = FALSE;
+            }
+            else{
+                $errorCheck = TRUE;
+            }
+        }
+        if (empty($password)){
+            $errPassword = "*Password Required";
+            $errorCheck = FALSE;
+        } else {
+            $password = test_input($password);
+            if(strlen($password) < 8) {
+                $errPassword = "*Password must have 8 characters";
+                $errorCheck = FALSE;
+            }
+            else if (!preg_match("/[0-9]/", $password)) {
+                $errPassword = "*Password should contain a Number";
+                $errorCheck = FALSE;
+            }
+            if ($errorCheck){
+                $errorCheck = TRUE;
+            }
+        }
+        if ($errorCheck){
+            $message = "Login Successful!";
+            echo "<script>alert('$message');
+                    window.location.href='/MiniProject/NoteKeeper/notes.php';
+                  </script>";
+        }
+    }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -39,10 +91,10 @@
                 <span class="active"> Log In </span>
                 <p>Please Log into your account</p>
                 <form class="login-form" action='./login.php' method="POST">
-                    <input type="text" name="username" placeholder="Username" id="username" required/>
-                    <p id="userEmpty"></p>
-                    <input type="password" name="password" placeholder="Password" id="password" required/>
-                    <p id="passEmpty"></p>
+                    <input type="text" name="username" placeholder="Username" id="username" value = "<?php echo $username;?>"/>
+                    <p class="error"><?php echo $errName;?></p>
+                    <input type="password" name="password" placeholder="Password" id="password"/>
+                    <p class="error"><?php echo $errPassword;?></p>
                     <button>login</button>
                     <p class="message">Not registered? <a href="./register.php">Sign In</a></p>
                 </form>
