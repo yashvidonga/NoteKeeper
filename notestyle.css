@@ -1,0 +1,267 @@
+body {
+    background: #38b6ff;
+    font-family: "Poppins", sans-serif;
+    margin-top: 5%;
+}
+
+/*Navbar css*/
+
+.navbar {
+    background-color: black;
+    margin: 0px 0px 0px 0px;
+}
+
+.navbar-light .navbar-nav .active>.nav-link {
+    color: rgb(125, 186, 255);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #fff;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+    color: rgb(172, 209, 252);
+    text-decoration: underline;
+}
+
+.col {
+    margin: 0px 0px 0px 0px;
+    height: 670px;
+    background-color: white;
+    width: 30%;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 12px;
+ 
+}
+
+.col-6 {
+    /* height: 300px; */
+    width: 80%;
+    /* background-color: 38b6ff; */
+    /* border-right: solid 1px #201414; */
+}
+
+.row {
+    background-color: white;
+    /* color: white; */
+    margin: 0px 0px 0px 0px;
+    /* padding: 45px; */
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 12px;
+}
+/* 
+.note-form {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 12px;
+} */
+
+.note-form input,
+textarea {
+    font-family: "Poppins", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border-radius: 12px;
+    margin: 5px;
+}
+
+.note-form button {
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #38b6ff;
+    width: 80%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.note-form button:hover,
+.note-form button:active,
+.note-form button:focus {
+    background: #38b6ff;
+}
+
+.note-form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 14px;
+}
+
+.note-form .message a {
+    color: #38b6ff;
+    text-decoration: none;
+}
+
+
+#createNote {
+    outline: none;
+}
+
+.btn {
+    border-radius: 0px;
+    border-color: #343434;
+    background-color: #272424;
+}
+
+.body {
+    overflow-y: auto;
+    max-height: 670px;
+    padding: 0px 0px 0px 0px;
+    border-top: solid 2px rgb(114, 108, 108);
+    background-color: #38b6ff;
+}
+
+.note {
+    font: 14px;
+    font-family: 'Source Sans Pro', sans-serif;
+    background-color: white;
+    padding: 0px 0px 10px 0px;
+    border-bottom: solid 1px black;
+}
+
+.btn:hover {
+    background-color: #3a3535;
+    border: none;
+}
+
+.btn:active {
+    background-color: rgb(41, 189, 189);
+}
+
+
+.date {
+    font-size: 12.6px;
+    font-style: italic;
+    padding-left: 10px;
+    padding-bottom: 10px;
+}
+
+.note-selected {
+    font: 14px;
+    font-family: 'Source Sans Pro', sans-serif;
+    background-color: #1d1c1c;
+    padding: 0px 0px 10px 0px;
+    border-bottom: solid 1px rgb(114, 108, 108);
+}
+
+.note:hover {
+    background-color: #242323;
+    visibility: visible;
+}
+
+.note .action {
+    visibility: hidden;
+}
+
+#icon {
+    color: rgb(196, 199, 199);
+    margin-left: 45%;
+    margin-top: -8%;
+}
+
+#trash {
+    color: rgb(196, 199, 199);
+    margin-top: -8%;
+}
+
+#trash:hover {
+    color: rgb(41, 189, 189);
+}
+
+#icon1:hover,
+#icon2:hover,
+#icon3:hover {
+    color: rgb(41, 189, 189);
+}
+
+#logout:hover {
+    color: aqua;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 0px;
+    bottom: 0px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: rgb(7, 212, 212);
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px rgb(7, 212, 212);
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(12px);
+    -ms-transform: translateX(12px);
+    transform: translateX(12px);
+}
+
+
+/* Rounded sliders */
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+.btn {
+    width: 100%;
+}
+
+a:hover {
+    color: rgb(41, 189, 189);
+}

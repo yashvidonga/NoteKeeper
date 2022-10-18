@@ -103,7 +103,7 @@
             <form class="contact-form" action='contact.php' method="POST">
                 <input type="text" placeholder="Name" name="name" value="<?php echo $name;?>"/>
                 <p class="error"><?php echo $errName;?></p>
-                <input type="email" placeholder="Email" name="email" value="<?php echo $email;?>"/>
+                <input type="text" placeholder="Email" name="email" value="<?php echo $email;?>"/>
                 <p class="error"><?php echo $errEmail;?></p>
                 <textarea type="usermessage" rows=5 placeholder="Message" name="message" value ="<?php echo $message;?>" ></textarea>
                 <p class="error"><?php echo $errMessage;?></p>
