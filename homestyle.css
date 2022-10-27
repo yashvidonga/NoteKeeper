@@ -56,3 +56,11 @@ h2 {
     padding: 0px 0px 5px 0px;
     animation: normal;
 }
+
+.navbar-light .navbar-nav .nav-button {
+    padding: 5px;
+    margin-left: 10px;
+    border: 1px solid #56baed;
+    background-color: black;
+    color: #fff;
+}

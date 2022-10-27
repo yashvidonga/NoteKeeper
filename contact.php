@@ -68,7 +68,8 @@
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <title>Contact</title>
-    <link rel="stylesheet" href="./contactstyle.css">
+    <!-- <link rel="stylesheet" href="./contactstyle.css"> -->
+    <link rel="stylesheet" type="text/css" href="<?php echo (($_COOKIE['style'] == "dark")?'contactstyle_dark':'contactstyle') ?>.css" />
 </head>
 
 <nav class="navbar navbar-expand-lg navbar-light fixed-top">

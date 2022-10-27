@@ -1,3 +1,15 @@
+<?php
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        setcookie("style", "dark", time() + (86400 * 30), "/"); 
+        $message = "Dark Mode Choosen";
+        echo "<script>alert('$message');
+        window.location.href='/MiniProject/NoteKeeper/login.php';
+      </script>";
+    }
+    else{
+        setcookie("style", "light", time() + (86400 * 30), "/"); 
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,7 +43,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./contact.php">Contact</a>
                     </li>      
-                    
+                    <form action='./home.php' method="POST" class="nav-item">
+                        <button class="nav-button">Dark Mode</button>
+                    </form>
                 </ul>
             </div>
         </div>

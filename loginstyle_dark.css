@@ -1,0 +1,127 @@
+@import url(https://fonts.googleapis.com/css?family=Poppins:300);
+
+body {
+    background: #38b6ff;
+    font-family: "Poppins", sans-serif;
+    margin-top: 5%;
+    color: white;
+}
+
+/*Navbar css*/
+
+.navbar {
+    background-color: black;
+    margin: 0px 0px 0px 0px;
+}
+
+.navbar-light .navbar-nav .active>.nav-link {
+    color: rgb(125, 186, 255);
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: white;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+    color: rgb(172, 209, 252);
+    text-decoration: underline;
+}
+
+
+/*login pg*/
+
+.login-page {
+    width: 500px;
+    padding: 4% 0 0 0;
+    margin: auto;
+}
+
+p {
+    padding: 10px;
+}
+
+.active {
+    color: white;
+    border-bottom: 2px solid #0c2938;
+    font-weight: 1000;
+    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 5px 0px;
+    animation: normal;
+}
+
+
+/*login form*/
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: black;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 12px;
+}
+
+.form .error{
+    color: red;
+    padding: 0px 0px 0px 3px;
+    text-align: left;
+    font-size: smaller;
+}
+
+.form input,
+textarea {
+    font-family: "Poppins", sans-serif;
+    outline: 0;
+    margin: 0px 0px 0px 0px;
+    background: white;
+    width: 100%;
+    border: 0;
+    padding: 20px;
+    box-sizing: border-box;
+    font-size: 14px;
+    border-radius: 12px;
+}
+
+.form button {
+    font-family: "Poppins", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: #38b6ff;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.form button:hover,
+.form button:active,
+.form button:focus {
+    background: #4354a0;
+}
+
+.form .message {
+    margin: 15px 0 0;
+    color: #b3b3b3;
+    font-size: 14px;
+}
+
+.form .message a {
+    color: #4c8baf;
+    text-decoration: none;
+}
+
+.form .register-form {
+    display: none;
+}
+
+.form .login-page .error{
+    color: red;
+}

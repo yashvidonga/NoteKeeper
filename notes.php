@@ -1,4 +1,35 @@
-
+<?php
+    function test_input($data) {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
+    }
+    $errNote = $errTitle = "";
+    $note = $title = "";
+    $errorCheck = TRUE;
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $note = $_POST['content'];
+        $title = $_POST['title'];
+        if (empty($note)) {
+            $errNote = "*Note Required";
+            $errorCheck = FALSE;
+        } else {
+            $note = test_input($note);
+            $errorCheck = TRUE;
+        }
+        if (empty($title)){
+            $errTitle = "*Title Required";
+            $errorCheck = FALSE;
+        } else {
+            $title = test_input($title);
+            $errorCheck = TRUE;
+        }
+        if ($errorCheck){
+            $message = "Note Created";
+        }
+    }
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +45,8 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-        <link rel="stylesheet" href="notestyle.css">
+        <!-- <link rel="stylesheet" href="notestyle.css"> -->
+        <link rel="stylesheet" type="text/css" href="<?php echo (($_COOKIE['style'] == "dark")?'notestyle_dark':'notestyle') ?>.css" />
         <title>My Notes</title>
     </head>
 
@@ -51,24 +83,26 @@
     <body>
         <div class="container" style="margin-top: 4%;">
             <div class="row">
-                <div class="col" style="padding: 0px 0px 0px 0px;">
+                <div class="col" style="padding: 0px 0px 0px 0px; ">
                     <div class="row-half" style="padding: 0px 0px 0px 0px; "></div>
                 <div class="body">
                 <!--  -->
                 </div>
             </div>
             <div class="col-6" style="margin-left: 20%;">
-                <form class="note-form" action="note.php" method="POST">
+                <form class="note-form" action='./notes.php' method="POST">
                     <?php 
-                    if($insert == true) {
-                        $message = "Note created successfully.";
-                        echo 
-                        "<script>alert('$message');
-                        </script>";
-                    }     
+                    // if($insert == true) {
+                    //     $message = "Note created successfully.";
+                    //     echo 
+                    //     "<script>alert('$message');
+                    //     </script>";
+                    // }     
                     ?>
                     <input type ="text" placeholder="Add a title..."  name="title" style="width: 85%; height: 5%;"/>
-                    <textarea placeholder="Content" name="content" style="width: 85%; height: 60vh;"></textarea>
+                    <p class="error"><?php echo $errTitle;?></p>
+                    <textarea placeholder="Content" name="content" style="width: 85%; height: 50vh;"></textarea>
+                    <p class="error"><?php echo $errNote;?></p>
                     <span style="padding: 1%;"><input type="checkbox" name="check" value="Yes">Make the Note Public</span>
                     <br>
                     <button>Create Note</button>
