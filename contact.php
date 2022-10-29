@@ -1,4 +1,5 @@
 <?php
+    session_start();
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -80,15 +81,34 @@
                 <li class="nav-item">
                     <a class="nav-link" href="./home.php">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./login.php">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="./register.php">Sign Up</a>
-                </li>
+                <?php
+                    if(!isset($_SESSION["username"])) {
+                ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./login.php">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./register.php">Sign Up</a>
+                    </li>
+                <?php
+                    }else echo "";
+                ?>
+
                 <li class="nav-item  active">
                     <a class="nav-link" href="./contact.php">Contact</a>
                 </li>
+                <?php
+                    if(isset($_SESSION["username"])) {
+                ?>
+                    <li class="nav-item">
+                    <a class="nav-link" href="./note.php">My Notes</a>
+                    </li>
+                    <li class="nav-item">
+                    <a class="logout" href="./logout.php"><span id="logout"><i class="fas fa-sign-out-alt" style="color: aliceblue; font-size:xx-large; padding: 5px;"></i></span></a>
+                    </li>
+                <?php
+                    }else echo "";
+                ?>
             </ul>
         </div>
     </div>

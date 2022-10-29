@@ -1,12 +1,12 @@
 <?php
+    session_start();
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        setcookie("style", "dark", time() + (86400 * 30), "/"); 
-        $message = "Dark Mode Choosen";
-        echo "<script>alert('$message');
-        window.location.href='/MiniProject/NoteKeeper/login.php';
-      </script>";
-    }
-    else{
+        if ($_COOKIE['style'] == "dark"){
+            setcookie("style", "light", time() + (86400 * 30), "/"); 
+        }else{
+            setcookie("style", "dark", time() + (86400 * 30), "/"); 
+        }
+    }else{
         setcookie("style", "light", time() + (86400 * 30), "/"); 
     }
 ?>
@@ -42,10 +42,44 @@
                     
                     <li class="nav-item">
                         <a class="nav-link" href="./contact.php">Contact</a>
+                    </li>     
+                    <li class="nav-item">
+                        <a class="nav-link"></a>
                     </li>      
-                    <form action='./home.php' method="POST" class="nav-item">
-                        <button class="nav-button">Dark Mode</button>
+                    <form action='./home.php' method="POST" class="nav-item" id="form">
+                        <div class="theme-check" >
+                            <label id="switch" class="switch">
+                                <input type="checkbox" onchange="toggleTheme()" id="slider">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
                     </form>
+                    <script>
+                            function toggleTheme(){
+                                let form = document.getElementById("form");
+                                form.submit();
+                                if (localStorage.getItem('theme') === 'theme-dark') {
+                                    setTheme('theme-light');
+                                } else {
+                                    setTheme('theme-dark');
+                                }
+                            }
+                            function setTheme(themeName) {
+                                localStorage.setItem('theme', themeName);
+                                document.documentElement.className = themeName;
+                            }
+
+                            // Immediately invoked function to set the theme on initial load
+                            (function () {
+                                if (localStorage.getItem('theme') === 'theme-dark') {
+                                    setTheme('theme-dark');
+                                    document.getElementById('slider').checked = false;
+                                } else {
+                                    setTheme('theme-light');
+                                document.getElementById('slider').checked = true;
+                                }
+                            })();
+                    </script>
                 </ul>
             </div>
         </div>
