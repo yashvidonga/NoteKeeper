@@ -26,36 +26,27 @@ body {
 }
 
 .col {
-    margin: 0px 0px 0px 0px;
-    height: 670px;
+    margin: 10px;
+    height: auto;
+    /* max-height: 700px; */
     background-color: white;
     width: 30%;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
     border-radius: 12px;
- 
-}
-
-.col-6 {
-    /* height: 300px; */
-    width: 80%;
-    /* background-color: 38b6ff; */
-    /* border-right: solid 1px #201414; */
 }
 
 .row {
     background-color: white;
-    /* color: white; */
-    margin: 0px 0px 0px 0px;
-    /* padding: 45px; */
+    margin: 20px;
     text-align: center;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
     border-radius: 12px;
-    height: 670px;
+    height: auto;
+    padding: 30px;
 }
 
 .note-form{
-    width: 800px;
-    padding: 4% 0 0 0;
+    width: 1000px;
     margin: auto;
 }
 
@@ -129,17 +120,26 @@ textarea {
 .body {
     overflow-y: auto;
     max-height: 670px;
-    padding: 0px 0px 0px 0px;
-    border-top: solid 2px rgb(114, 108, 108);
-    background-color: #38b6ff;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.body h3{
+    padding: 10px;
+  flex: 1 100%;
 }
 
 .note {
-    font: 14px;
     font-family: 'Source Sans Pro', sans-serif;
     background-color: white;
-    padding: 0px 0px 10px 0px;
+    padding: 15px;
     border-bottom: solid 1px black;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    border-radius: 12px;
+    width: 250px;
+    margin: 5px;
 }
 
 .btn:hover {
@@ -168,7 +168,6 @@ textarea {
 }
 
 .note:hover {
-    background-color: #242323;
     visibility: visible;
 }
 

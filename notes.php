@@ -1,4 +1,5 @@
 <?php
+    session_start();
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -27,6 +28,13 @@
         }
         if ($errorCheck){
             $message = "Note Created";
+            if(isset($_POST['title'])) {
+                $title = $_POST['title'];
+                $content = $_POST['content'];
+                $date = date('Y-m-d H:i:s');
+                $check = 0;
+                $user = $_SESSION["username"];
+            }
         }
     }
 ?>
@@ -58,38 +66,70 @@
                     <li class="nav-item">
                         <a class="nav-link" href="home.php">Home</a>
                     </li>
+                    <?php
+                        if(!isset($_SESSION["username"])) {
+                    ?>
                         <li class="nav-item">
                             <a class="nav-link" href="./login.php">Log In</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="./register.php">Sign Up</a>
                         </li>
+                    <?php
+                        }else echo "";
+                    ?>
                     <li class="nav-item">
                         <a class="nav-link" href="contact.php">Contact</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="publicNotes.php">Public Notes</a>
-                    </li>
+                    <?php
+                        if(isset($_SESSION["username"])) {
+                    ?>
                         <li class="nav-item  active">
                             <a class="nav-link" href="./note.php">My Notes</a>
                         </li>
                         <li class="nav-item">
                             <a class="logout" href="./logout.php"><span id="logout"><i class="fas fa-sign-out-alt" style="color: aliceblue; font-size:xx-large; padding: 5px;"></i></span></a>
                         </li>
+                    <?php
+                        }else echo "";
+                    ?>
                 </ul>
             </div>
         </div>
     </nav>
     <body>
         <div class="container" style="margin-top: 4%;">
-            <div class="row">
-                <div class="col" style="padding: 0px 0px 0px 0px; ">
-                    <div class="row-half" style="padding: 0px 0px 0px 0px; "></div>
-                <div class="body">
-                <!--  -->
+            
+                <!-- <div class="col" style="padding: 0px 0px 0px 0px; ">
+                    <div class="row-half" style="padding: 0px 0px 0px 0px; "></div> -->
+                <div class="body">        
+                <h2>My notes</h2>
+                    <?php
+                        $user = $_SESSION["username"];
+                        echo "<div class='note'>";
+                        echo "<h3>" . "isbfe" . "</h3>";
+                        echo "<p>" . "dskfcbsd" . "</p>";
+                        echo "<span class='date'>" . "12-12-12" . "</span>";
+                        echo "</div>";
+                        echo "<div class='note'>";
+                        echo "<h3>" . "isbfe" . "</h3>";
+                        echo "<p>" . "dskfcbsd" . "</p>";
+                        echo "<span class='date'>" . "12-12-12" . "</span>";
+                        echo "</div>";
+                        echo "<div class='note'>";
+                        echo "<h3>" . "isbfe" . "</h3>";
+                        echo "<p>" . "dskfcbsd" . "</p>";
+                        echo "<span class='date'>" . "12-12-12" . "</span>";
+                        echo "</div>";
+                        echo "<div class='note'>";
+                        echo "<h3>" . "isbfe" . "</h3>";
+                        echo "<p>" . "dskfcbsd" . "</p>";
+                        echo "<span class='date'>" . "12-12-12" . "</span>";
+                        echo "</div>";
+                        
+                    ?>
                 </div>
-            </div>
-            <div class="col-6" style="margin-left: 20%;">
+            <div class="row">
                 <form class="note-form" action='./notes.php' method="POST">
                     <?php 
                     // if($insert == true) {
@@ -108,6 +148,7 @@
                     <button>Create Note</button>
                 </form>
             </div>
+            
         </div>
     </body>
 </html>
