@@ -7,8 +7,8 @@
         return $data;
     }
 
-    $errName = $errPassword = $errEmail = $errMobile = "";
-    $username = $password = $mobile = $email = "";
+    $errName = $errPassword = $errCPassword = $errEmail = $errMobile = "";
+    $username = $password = $cpassword = $mobile = $email = "";
     $errorCheck = TRUE;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -62,6 +62,23 @@
         if ($errorCheck){
             $errorCheck = TRUE;
         }
+    }
+        
+    if (empty($cpassword)){
+        $errPassword = "*Password Required";
+        $errorCheck = FALSE;
+    }
+    else
+    {
+            if($password!=$cpassword)
+        {
+            $errPassword = "*Passwords don't match";
+            $errorCheck = FALSE;
+        }
+        else{
+            $errorCheck = TRUE;
+        }
+
     }
 
     if (empty($mobile)){
@@ -158,6 +175,8 @@
                     <p class="error"><?php echo $errName;?></p>
                     <input id="password" name='password' type="password" placeholder="Set Password" />
                     <p class="error"><?php echo $errPassword;?></p>
+                    <input id="cpassword" name='cpassword' type="password" placeholder="Confirm Password" />
+                    <p class="error"><?php echo $errCPassword;?></p>
                     <input id="mobile" name='mobile' type="text" placeholder="Mobile No" value = "<?php echo $mobile;?>"/>
                     <p class="error"><?php echo $errMobile;?></p>
                     <br> Agree to Terms of Service:
