@@ -45,7 +45,19 @@
                     </li>     
                     <li class="nav-item">
                         <a class="nav-link"></a>
-                    </li>      
+                    </li> 
+                    <?php
+                        if(isset($_SESSION["username"])) {
+                    ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./note.php">My Notes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="logout" href="./logout.php"><span id="logout"><i class="fas fa-sign-out-alt" style="color: aliceblue; font-size:xx-large; padding: 5px;"></i></span></a>
+                        </li>
+                    <?php
+                        }else echo "";
+                    ?>     
                     <form action='./home.php' method="POST" class="nav-item" id="form">
                         <div class="theme-check" >
                             <label id="switch" class="switch">

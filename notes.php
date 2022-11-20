@@ -1,5 +1,9 @@
 <?php
     session_start();
+    $database_username = 'root';
+    $database_password = '';
+    $pdo_conn = new PDO( 'mysql:host=127.0.0.1:8111;dbname=notes_app', $database_username, $database_password );
+     
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -34,6 +38,14 @@
                 $date = date('Y-m-d H:i:s');
                 $check = 0;
                 $user = $_SESSION["username"];
+                $stmt = $pdo_conn->prepare("INSERT INTO notes VALUES (:Title, :Content, :PostDate, :Public, :Username)");
+                $stmt->bindParam(':Title', $title);
+                $stmt->bindParam(':Content', $content);
+                $stmt->bindParam(':PostDate', $date);
+                $stmt->bindParam(':Public', $check);
+                $stmt->bindParam(':Username', $user);
+                $stmt->execute();
+                echo "<script>alert('$message');</script>";
             }
         }
     }
@@ -53,7 +65,6 @@
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.min.js" integrity="sha384-Atwg2Pkwv9vp0ygtn1JAojH0nYbwNJLPhwyoVbhoPwBhjQPR5VtM2+xf0Uwh9KtT" crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-        <!-- <link rel="stylesheet" href="notestyle.css"> -->
         <link rel="stylesheet" type="text/css" href="<?php echo (($_COOKIE['style'] == "dark")?'notestyle_dark':'notestyle') ?>.css" />
         <title>My Notes</title>
     </head>
@@ -106,27 +117,25 @@
                 <h2>My notes</h2>
                     <?php
                         $user = $_SESSION["username"];
-                        echo "<div class='note'>";
-                        echo "<h3>" . "isbfe" . "</h3>";
-                        echo "<p>" . "dskfcbsd" . "</p>";
-                        echo "<span class='date'>" . "12-12-12" . "</span>";
-                        echo "</div>";
-                        echo "<div class='note'>";
-                        echo "<h3>" . "isbfe" . "</h3>";
-                        echo "<p>" . "dskfcbsd" . "</p>";
-                        echo "<span class='date'>" . "12-12-12" . "</span>";
-                        echo "</div>";
-                        echo "<div class='note'>";
-                        echo "<h3>" . "isbfe" . "</h3>";
-                        echo "<p>" . "dskfcbsd" . "</p>";
-                        echo "<span class='date'>" . "12-12-12" . "</span>";
-                        echo "</div>";
-                        echo "<div class='note'>";
-                        echo "<h3>" . "isbfe" . "</h3>";
-                        echo "<p>" . "dskfcbsd" . "</p>";
-                        echo "<span class='date'>" . "12-12-12" . "</span>";
-                        echo "</div>";
-                        
+                        $pdo_statement = $pdo_conn->prepare("SELECT * FROM notes WHERE Username = :Username");
+                        $pdo_statement->bindParam(':Username', $user);
+                        $pdo_statement->execute();
+                        $result = $pdo_statement->fetchAll();
+                        if ($result) {
+                            foreach($result as $row){
+                                echo "<div class='note'>";
+                                echo "<h2>" . $row['Title'] . "</h2>";
+                                echo "<p>" . $row['Content'] . "</p>";
+                                echo "<span class='date'>" . $row['Date'] . "</span>";
+                                echo "<div id='icon'>";
+                                    echo '&nbsp <span id="icon1"><a id = "trash" href="?name='. $row['Title'] .'"><i class="fas fa-trash"></i></a></span>&nbsp &nbsp';
+                                    echo '&nbsp &nbsp <span id="icon1"><a id = "trash" href="?name2='. $row['Title'] .'"><i class="fas fa-download"></i></a></span>&nbsp &nbsp';
+                                echo "</div>";
+                                echo "</div>";
+                            }
+                          } else {
+                            echo "0 results";
+                          }
                     ?>
                 </div>
             <div class="row">

@@ -1,5 +1,9 @@
 <?php
     session_start();
+    $database_username = 'root';
+    $database_password = '';
+    $pdo_conn = new PDO( 'mysql:host=127.0.0.1:8111;dbname=notes_app', $database_username, $database_password );
+            
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -45,10 +49,31 @@
         if ($errorCheck){
             $_SESSION['username'] = $username;
             $_SESSION['password'] = $password;
-            $message = "Login Successful!";
-            echo "<script>alert('$message');
-                    window.location.href='/MiniProject/NoteKeeper/notes.php';
-                  </script>";
+            $pdo_statement = $pdo_conn->prepare("SELECT * FROM Users WHERE Username = :Username");
+	        $pdo_statement->execute( array(':Username' => $username) );
+	        $result = $pdo_statement->fetch();
+            if ($result == null){
+                $message = "Login Incorrect";
+                unset($_SESSION['username']);
+                echo "<script>alert('$message');
+                        window.location.href='/MiniProject/NoteKeeper/login.php';
+                    </script>";
+            }else{
+                if ($result['Username'] == $username and $result['Password'] == $password) {
+                    $message = "Login Successful!";
+                    echo "<script>alert('$message');
+                            window.location.href='/MiniProject/NoteKeeper/notes.php';
+                        </script>";
+                }else{ 
+                    $message = "Login Incorrect";
+                    unset($_SESSION['username']);
+                    echo "<script>alert('$message');
+                            window.location.href='/MiniProject/NoteKeeper/login.php';
+                        </script>";
+
+                }
+                
+            }
         }
     }
 
@@ -62,7 +87,6 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <title>Login</title>
-        <!-- <link rel="stylesheet" href="./loginstyle.css"> -->
         <link rel="stylesheet" type="text/css" href="<?php echo (($_COOKIE['style'] == "dark")?'loginstyle_dark':'loginstyle') ?>.css" />
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     </head>

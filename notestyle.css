@@ -128,7 +128,7 @@ textarea {
 
 .body h3{
     padding: 10px;
-  flex: 1 100%;
+    flex: 1 100%;
 }
 
 .note {
@@ -177,7 +177,7 @@ textarea {
 
 #icon {
     color: rgb(196, 199, 199);
-    margin-left: 45%;
+    margin-left: 60%;
     margin-top: -8%;
 }
 
