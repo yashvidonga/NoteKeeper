@@ -1,5 +1,21 @@
 <?php
     session_start();
+    $servername = "localhost"; 
+    $username = "root"; 
+    $password = "";
+   
+    $database = "notes_app";
+   
+     $conn = mysqli_connect($servername, 
+         $username, $password, $database);
+   
+    if($conn) {
+        echo "success"; 
+    } 
+    else {
+        die("Error". mysqli_connect_error()); 
+    } 
+   
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -10,11 +26,16 @@
     $errName = $errPassword = $errCPassword = $errEmail = $errMobile = "";
     $username = $password = $cpassword = $mobile = $email = "";
     $errorCheck = TRUE;
+    $showAlert = false; 
+    $showError = false; 
+    $exists=false;
+    $exists1=false;
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $email = $_POST['email'];
         $username = $_POST['username'];
         $password = $_POST['password'];
+        $cpassword = $_POST['cpassword'];
         $mobile = $_POST['mobile'];
     
 
@@ -63,24 +84,26 @@
             $errorCheck = TRUE;
         }
     }
-        
-    if (empty($cpassword)){
-        $errPassword = "*Password Required";
+
+    if (empty($cpassword))
+    {
+        $errCPassword = "*Password Required";
         $errorCheck = FALSE;
     }
     else
     {
-            if($password!=$cpassword)
+            if($password==$cpassword)
         {
-            $errPassword = "*Passwords don't match";
-            $errorCheck = FALSE;
-        }
-        else{
             $errorCheck = TRUE;
+        }
+        else
+        {
+            $errCPassword = "*Passwords don't match";
+            $errorCheck = FALSE;
         }
 
     }
-
+    
     if (empty($mobile)){
         $errMobile = "*Mobile Number Required";
         $errorCheck = FALSE;
@@ -103,19 +126,53 @@
                 
             if (isset($_POST['agree'])): 
                     {
-                        $message = "Registration Successful!";            
-                        $cookie_name = "user";
-                        $cookie_value = $username;
-                        setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); 
-                        echo "<script>alert('$message');
-                                window.location.href='/MiniProject/NoteKeeper/notes.php';
-                            </script>";
+                        $sql = "Select * from users where username='$username'";
+
+                        $sql1 = "Select * from users where email='$email'";
+    
+                        $uresult = mysqli_query($conn, $sql);
+                        
+                        $num = mysqli_num_rows($uresult); 
+
+                        $eresult = mysqli_query($conn, $sql1);
+                        
+                        $num1 = mysqli_num_rows($eresult); 
+                        
+                        if($num == 0 && $num1 ==0) {
+                            if($exists==false) {
+                        
+                                $hash = password_hash($password, 
+                                                    PASSWORD_DEFAULT);
+                                    
+                                $sql = "insert into users(Email, 
+                                Username,PhoneNo,Password)  values ('$email','$username','$mobile','$hash')";
+                        
+                                $result = mysqli_query($conn, $sql);
+                                $message = "Registration Successful!";            
+                                $cookie_name = "user";
+                                $cookie_value = $username;
+                                setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); 
+                                echo "<script>alert('$message');
+                                        window.location.href='/MiniProject/NoteKeeper-master/notes.php';
+                                    </script>";
+                            }
+                        }
+                        
+                       if($num>0) 
+                       {
+                          $exists="Username not available"; 
+                       } 
+                       if($num1>0) 
+                       {
+                          $exists1="Email already registered"; 
+                       } 
+
                     }
             else:
                 {
                     $message = "You have not agreed to the terms and conditions!";
                         echo "<script>alert('$message');
-                                window.location.href='/MiniProject/NotekKeeper/register.php';
+                                window.location.href='/MiniProject/NotekKeeper-master/register.php';
                             </script>";
                 }
 
@@ -162,7 +219,31 @@
     </nav>
 
     <body>
-
+      
+    <?php
+            if($exists) {
+                echo '<div class="alert alert-danger 
+                    alert-dismissible fade show" role="alert">
+            
+                <strong>Error!</strong> '. $exists.'
+                <button type="button" class="close" 
+                    data-dismiss="alert" aria-label="Close"> 
+                    <span aria-hidden="true">×</span> 
+                </button>
+            </div> '; 
+            }
+            if($exists1) {
+                echo '<div class="alert alert-danger 
+                    alert-dismissible fade show" role="alert">
+            
+                <strong>Error!</strong> '. $exists1.'
+                <button type="button" class="close" 
+                    data-dismiss="alert" aria-label="Close"> 
+                    <span aria-hidden="true">×</span> 
+                </button>
+            </div> '; 
+            }
+        ?>
 
         <div class="login-page" style="width:500px;">
             <div class="form">
@@ -175,13 +256,13 @@
                     <p class="error"><?php echo $errName;?></p>
                     <input id="password" name='password' type="password" placeholder="Set Password" />
                     <p class="error"><?php echo $errPassword;?></p>
-                    <input id="cpassword" name='cpassword' type="password" placeholder="Confirm Password" />
+                    <input id="cpassword" name='cpassword' type="password" placeholder="Confirm Password"/>
                     <p class="error"><?php echo $errCPassword;?></p>
                     <input id="mobile" name='mobile' type="text" placeholder="Mobile No" value = "<?php echo $mobile;?>"/>
                     <p class="error"><?php echo $errMobile;?></p>
                     <br> Agree to Terms of Service:
                     <input type="checkbox" name="agree">
-                    <br>
+                    <br><br>
                     <input type="hidden" name="form_submitted" value="1" />
                     <button type="Submit">Register</button>
                     <p class="message">Already registered? <a href="./login.php">LogIn</a></p>
@@ -190,3 +271,6 @@
         </div>
     </body>
 </html>
+
+
+
