@@ -2,7 +2,7 @@
     session_start();
     $servername = "localhost"; 
     $username = "root"; 
-    $password = "8May1997$";
+    $password = "";
    
     $database = "notes_app";
    
@@ -122,48 +122,7 @@
     if ($errorCheck)
         {
                 
-            //if (isset($_POST['agree'])): 
-                    //{
-                    //     $sql = "Select * from users where username='$username'";
-
-                    //     $sql1 = "Select * from users where email='$email'";
-    
-                    //     $uresult = mysqli_query($conn, $sql);
-                        
-                    //     $num = mysqli_num_rows($uresult); 
-
-                    //     $eresult = mysqli_query($conn, $sql1);
-                        
-                    //     $num1 = mysqli_num_rows($eresult); 
-                        
-                    //     if($num == 0 && $num1 ==0) {
-                    //         if($exists==false) {
-                        
-                    //             $hash = password_hash($password, 
-                    //                                 PASSWORD_DEFAULT);
-                                    
-                    //             $sql = "insert into users(Email, 
-                    //             Username,PhoneNo,Password)  values ('$email','$username','$mobile','$hash')";
-                        
-                    //             $result = mysqli_query($conn, $sql);
-                    //             $message = "Registration Successful!";            
-                    //             $cookie_name = "user";
-                    //             $cookie_value = $username;
-                    //             setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); 
-                    //             echo "<script>alert('$message');
-                    //                     window.location.href='/MiniProject/NoteKeeper-master/notes.php';
-                    //                 </script>";
-                    //         }
-                    //     }
-                        
-                    //    if($num>0) 
-                    //    {
-                    //       $exists="Username not available"; 
-                    //    } 
-                    //    if($num1>0) 
-                    //    {
-                    //       $exists1="Email already registered"; 
-                    //    } 
+      
                     $message = "Registered Successfully";
                     if(isset($_POST['agree'])) {
                         $check = 0;
@@ -203,7 +162,6 @@
                                 window.location.href='/MiniProject/NotekKeeper-master/register.php';
                             </script>";
                 }
-           // endif;
         }   
     }
     
