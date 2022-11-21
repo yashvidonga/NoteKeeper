@@ -103,7 +103,7 @@
     }
     
     if (empty($mobile)){
-        $errMobile = "*Mobile Number Required";
+        $errMobile = "*Phone Number Required";
         $errorCheck = FALSE;
     }
     else {
@@ -121,8 +121,6 @@
     }
     if ($errorCheck)
         {
-                
-      
                     $message = "Registered Successfully";
                     if(isset($_POST['agree'])) {
                         $check = 0;
@@ -152,7 +150,7 @@
                             $errEmail='Email already exists!';
                         }
                         if($num2>0){
-                            $errMobile='Mobile already exists!';
+                            $errMobile='Phone number already exists!';
                         }
                     }
             else
