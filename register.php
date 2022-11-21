@@ -2,21 +2,19 @@
     session_start();
     $servername = "localhost"; 
     $username = "root"; 
-    $password = "";
+    $password = "8May1997$";
    
     $database = "notes_app";
    
-     $conn = mysqli_connect($servername, 
-         $username, $password, $database);
-   
-    if($conn) {
-        echo "success"; 
-    } 
-    else {
-        die("Error". mysqli_connect_error()); 
-    } 
-   
-    function test_input($data) {
+    try {
+        $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        echo "Connected successfully";
+      } catch(PDOException $e) {
+        echo "Connection failed: " . $e->getMessage();
+      }
+
+      function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
         $data = htmlspecialchars($data);
@@ -37,7 +35,7 @@
         $password = $_POST['password'];
         $cpassword = $_POST['cpassword'];
         $mobile = $_POST['mobile'];
-    
+        echo $cpassword;
 
     if (empty($email)) {
         $errEmail = "*Email Required";
@@ -92,7 +90,7 @@
     }
     else
     {
-            if($password==$cpassword)
+        if($password==$cpassword)
         {
             $errorCheck = TRUE;
         }
@@ -124,62 +122,90 @@
     if ($errorCheck)
         {
                 
-            if (isset($_POST['agree'])): 
-                    {
-                        $sql = "Select * from users where username='$username'";
+            //if (isset($_POST['agree'])): 
+                    //{
+                    //     $sql = "Select * from users where username='$username'";
 
-                        $sql1 = "Select * from users where email='$email'";
+                    //     $sql1 = "Select * from users where email='$email'";
     
-                        $uresult = mysqli_query($conn, $sql);
+                    //     $uresult = mysqli_query($conn, $sql);
                         
-                        $num = mysqli_num_rows($uresult); 
+                    //     $num = mysqli_num_rows($uresult); 
 
-                        $eresult = mysqli_query($conn, $sql1);
+                    //     $eresult = mysqli_query($conn, $sql1);
                         
-                        $num1 = mysqli_num_rows($eresult); 
+                    //     $num1 = mysqli_num_rows($eresult); 
                         
-                        if($num == 0 && $num1 ==0) {
-                            if($exists==false) {
+                    //     if($num == 0 && $num1 ==0) {
+                    //         if($exists==false) {
                         
-                                $hash = password_hash($password, 
-                                                    PASSWORD_DEFAULT);
+                    //             $hash = password_hash($password, 
+                    //                                 PASSWORD_DEFAULT);
                                     
-                                $sql = "insert into users(Email, 
-                                Username,PhoneNo,Password)  values ('$email','$username','$mobile','$hash')";
+                    //             $sql = "insert into users(Email, 
+                    //             Username,PhoneNo,Password)  values ('$email','$username','$mobile','$hash')";
                         
-                                $result = mysqli_query($conn, $sql);
-                                $message = "Registration Successful!";            
-                                $cookie_name = "user";
-                                $cookie_value = $username;
-                                setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); 
-                                echo "<script>alert('$message');
-                                        window.location.href='/MiniProject/NoteKeeper-master/notes.php';
-                                    </script>";
-                            }
+                    //             $result = mysqli_query($conn, $sql);
+                    //             $message = "Registration Successful!";            
+                    //             $cookie_name = "user";
+                    //             $cookie_value = $username;
+                    //             setcookie($cookie_name, $cookie_value, time() + (86400 * 30), "/"); 
+                    //             echo "<script>alert('$message');
+                    //                     window.location.href='/MiniProject/NoteKeeper-master/notes.php';
+                    //                 </script>";
+                    //         }
+                    //     }
+                        
+                    //    if($num>0) 
+                    //    {
+                    //       $exists="Username not available"; 
+                    //    } 
+                    //    if($num1>0) 
+                    //    {
+                    //       $exists1="Email already registered"; 
+                    //    } 
+                    $message = "Registered Successfully";
+                    if(isset($_POST['agree'])) {
+                        $check = 0;
+                        $ustmt = $conn->prepare("SELECT * FROM users where username='$username'");
+                        $ustmt->execute();
+                        $num=$ustmt->rowCount();
+                        $estmt = $conn->prepare("SELECT * FROM users where email='$email'");
+                        $estmt->execute();
+                        $num1=$estmt->rowCount();
+                        $mstmt = $conn->prepare("SELECT * FROM users where PhoneNo='$mobile'");
+                        $mstmt->execute();
+                        $num2=$mstmt->rowCount();
+                        if($num==0 && $num1==0 && $num2==0)
+                        {
+                                $stmt = $conn->prepare("INSERT INTO users VALUES (:Email, :Username, :PhoneNo, :Password)");
+                                $stmt->bindParam(':Email', $email);
+                                $stmt->bindParam(':Username', $username);
+                                $stmt->bindParam(':PhoneNo', $mobile);
+                                $stmt->bindParam(':Password', $password);
+                                $stmt->execute();
+                                echo "<script>alert('$message');</script>";
                         }
-                        
-                       if($num>0) 
-                       {
-                          $exists="Username not available"; 
-                       } 
-                       if($num1>0) 
-                       {
-                          $exists1="Email already registered"; 
-                       } 
-
+                        if($num>0){
+                            $errName='Username already exists!';
+                        }
+                        if($num1>0){
+                            $errEmail='Email already exists!';
+                        }
+                        if($num2>0){
+                            $errMobile='Mobile already exists!';
+                        }
                     }
-            else:
+            else
                 {
                     $message = "You have not agreed to the terms and conditions!";
                         echo "<script>alert('$message');
                                 window.location.href='/MiniProject/NotekKeeper-master/register.php';
                             </script>";
                 }
-
-            endif;
-        }
-                    
-    }      
+           // endif;
+        }   
+    }
     
 ?>
 
@@ -192,8 +218,8 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <title>Sign Up</title>
-        <!-- <link rel="stylesheet" href="./registerstyle.css"> -->
-        <link rel="stylesheet" type="text/css" href="<?php echo (($_COOKIE['style'] == "dark")?'registerstyle_dark':'registerstyle') ?>.css" />
+        <link rel="stylesheet" href="./registerstyle.css">
+        //<link rel="stylesheet" type="text/css" href="<?php echo (($_COOKIE['style'] == "dark")?'registerstyle_dark':'registerstyle') ?>.css" />
         <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     </head>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
@@ -213,15 +239,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="./contact.php">Contact</a>
                     </li>
-                    <li class="nav-item">
-                            <a class="nav-link" href="./notes.php">My Notes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="logout" href="./logout.php"><span id="logout"><i class="fas fa-sign-out-alt" style="color: aliceblue; font-size:xx-large; padding: 5px;"></i></span></a>
-                        </li>
-                    <?php
-                        }else echo "";
-                    ?>
                 </ul>
             </div>
         </div>
@@ -229,30 +246,6 @@
 
     <body>
       
-    <?php
-            if($exists) {
-                echo '<div class="alert alert-danger 
-                    alert-dismissible fade show" role="alert">
-            
-                <strong>Error!</strong> '. $exists.'
-                <button type="button" class="close" 
-                    data-dismiss="alert" aria-label="Close"> 
-                    <span aria-hidden="true">×</span> 
-                </button>
-            </div> '; 
-            }
-            if($exists1) {
-                echo '<div class="alert alert-danger 
-                    alert-dismissible fade show" role="alert">
-            
-                <strong>Error!</strong> '. $exists1.'
-                <button type="button" class="close" 
-                    data-dismiss="alert" aria-label="Close"> 
-                    <span aria-hidden="true">×</span> 
-                </button>
-            </div> '; 
-            }
-        ?>
 
         <div class="login-page" style="width:500px;">
             <div class="form">
