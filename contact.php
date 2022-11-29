@@ -1,5 +1,13 @@
 <?php
     session_start();
+    $database_username = "root";
+    $database_password = "";
+    try {
+        $conn = new PDO("mysql:host=127.0.0.1:8111; dbname=notes_app", $database_username, $database_password);
+        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch(PDOException $e){
+        echo "Connection failed: " . $e->getMessage();
+    }
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -50,6 +58,11 @@
         }
         if ($errorCheck){
             $message = "Thank you for contacting us!";
+            $stmt = $conn->prepare("INSERT INTO Contact VALUES (:Username, :Email, :Messages)");
+            $stmt->bindParam(":Username", $name);
+            $stmt->bindParam(":Email", $email);
+            $stmt->bindParam(":Messages", $message);
+            $stmt->execute();
             echo "<script>alert('$message');
                     window.location.href='/MiniProject/NoteKeeper/home.php';
                 </script>";

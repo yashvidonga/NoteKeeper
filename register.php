@@ -1,13 +1,13 @@
 <?php
     session_start();
-    $servername = "localhost"; 
-    $username = "root"; 
-    $password = "";
+    $servername = "127.0.0.1:8111"; 
+    $dusername = "root"; 
+    $dpassword = "";
    
     $database = "notes_app";
    
     try {
-        $conn = new PDO("mysql:host=$servername;dbname=$database", $username, $password);
+        $conn = new PDO("mysql:host=$servername;dbname=$database", $dusername, $dpassword);
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         echo "Connected successfully";
       } catch(PDOException $e) {
@@ -141,7 +141,9 @@
                                 $stmt->bindParam(':PhoneNo', $mobile);
                                 $stmt->bindParam(':Password', $password);
                                 $stmt->execute();
-                                echo "<script>alert('$message');</script>";
+                                echo "<script>alert('$message');
+                                    window.location.href='/MiniProject/NoteKeeper/notes.php';
+                                </script>";
                         }
                         if($num>0){
                             $errName='Username already exists!';

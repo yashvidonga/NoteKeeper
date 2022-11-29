@@ -10,6 +10,62 @@
         $data = htmlspecialchars($data);
         return $data;
     }
+
+    function delete($title) {
+        $database_username = 'root';
+        $database_password = '';
+        $user = $_SESSION['username'];
+        $pdo_conn = new PDO( 'mysql:host=127.0.0.1:8111;dbname=notes_app', $database_username, $database_password );
+        try{
+            $pdo_statement = $pdo_conn->prepare("DELETE FROM notes WHERE Username = :Username AND Title = :Title");
+            $pdo_statement->bindParam(':Username', $user);
+            $pdo_statement->bindParam(':Title', $title);
+            $pdo_statement->execute();            
+            header("Refresh:0; url=notes.php");
+        } catch (PDOExpection $e){
+            echo "Delete unsuccessful";
+        }
+    }
+
+    function download($title) {
+        $database_username = 'root';
+        $database_password = '';
+        $user = $_SESSION['username'];
+        $pdo_conn = new PDO( 'mysql:host=127.0.0.1:8111;dbname=notes_app', $database_username, $database_password );
+        $pdo_statement = $pdo_conn->prepare("SELECT * FROM notes WHERE Username = :Username AND Title = :Title");
+        $pdo_statement->bindParam(':Username', $user);
+        $pdo_statement->bindParam(':Title', $title);
+        $pdo_statement->execute();
+        $row = $pdo_statement->fetch();         
+        if(!empty($row)) {
+            $title = $row['Title'];
+            $content = $row['Content'];
+            $date = $row['Date'];
+            $fileNameTitle = $title.".txt";
+            $myfile = fopen($fileNameTitle, "w") or die("Unable to open file!");
+            $txt = "Title:$title\nNote:$content\nDate:$date\n";
+            fwrite($myfile, $txt);
+            fclose($myfile);
+            $filePath = './'.$fileNameTitle;
+            if(!empty($fileNameTitle) && file_exists($filePath)){
+                header('Content-Description: File Transfer');
+                header('Content-Type: application/octet-stream');
+                header('Content-Disposition: attachment; filename="./'.$fileNameTitle."\"");
+                header('Content-Transfer-Encoding: binary');
+                header('Expires: 0');
+                header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                header('Pragma: public');
+                ob_clean();
+                flush();
+                readfile($fileNameTitle);
+               exit();
+            }
+            else{
+               echo 'The file does not exist.';
+            }
+         }
+    }
+
     $errNote = $errTitle = "";
     $note = $title = "";
     $errorCheck = TRUE;
@@ -36,7 +92,11 @@
                 $title = $_POST['title'];
                 $content = $_POST['content'];
                 $date = date('Y-m-d H:i:s');
-                $check = 0;
+                if (isset($_POST['check'])){
+                    $check = 1;
+                } else{
+                    $check = 0;
+                }
                 $user = $_SESSION["username"];
                 $stmt = $pdo_conn->prepare("INSERT INTO notes VALUES (:Title, :Content, :PostDate, :Public, :Username)");
                 $stmt->bindParam(':Title', $title);
@@ -124,12 +184,21 @@
                         if ($result) {
                             foreach($result as $row){
                                 echo "<div class='note'>";
+                                if (isset($_GET['name2'])) {
+                                    download($_GET['name2']);
+                                }
+                                if (isset($_GET['name'])) {
+                                    delete($_GET['name']);
+                                }
                                 echo "<h2>" . $row['Title'] . "</h2>";
                                 echo "<p>" . $row['Content'] . "</p>";
                                 echo "<span class='date'>" . $row['Date'] . "</span>";
                                 echo "<div id='icon'>";
-                                    echo '&nbsp <span id="icon1"><a id = "trash" href="?name='. $row['Title'] .'"><i class="fas fa-trash"></i></a></span>&nbsp &nbsp';
-                                    echo '&nbsp &nbsp <span id="icon1"><a id = "trash" href="?name2='. $row['Title'] .'"><i class="fas fa-download"></i></a></span>&nbsp &nbsp';
+                                echo '&nbsp <span id="icon1"><a id = "trash" href="?name='. $row['Title'] .'"><i class="fas fa-trash"></i></a></span>&nbsp &nbsp';
+                                echo '&nbsp &nbsp <span id="icon1"><a id = "trash" href="?name2='. $row['Title'] .'"><i class="fas fa-download"></i></a></span>&nbsp &nbsp';
+                                if ($row['Is_public'] == 1) {
+                                    echo "&nbsp &nbsp <span style='color: rgb(41, 189, 189);'><i class='fas fa-globe'></i></span>";
+                                }
                                 echo "</div>";
                                 echo "</div>";
                             }
@@ -152,7 +221,7 @@
                     <p class="error"><?php echo $errTitle;?></p>
                     <textarea placeholder="Content" name="content" style="width: 85%; height: 50vh;"></textarea>
                     <p class="error"><?php echo $errNote;?></p>
-                    <span style="padding: 1%;"><input type="checkbox" name="check" value="Yes">Make the Note Public</span>
+                    <span style="padding: 1%;"><input type="checkbox" name="check" value="1">Make the Note Public</span>
                     <br>
                     <button>Create Note</button>
                 </form>
