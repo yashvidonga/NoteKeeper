@@ -1,4 +1,8 @@
 <?php
+    require 'vendor/autoload.php';
+    use PHPMailer\PHPMailer\PHPMailer;
+    use PHPMailer\PHPMailer\Exception;
+    
     session_start();
     $database_username = "root";
     $database_password = "";
@@ -57,15 +61,40 @@
             }
         }
         if ($errorCheck){
-            $message = "Thank you for contacting us!";
             $stmt = $conn->prepare("INSERT INTO Contact VALUES (:Username, :Email, :Messages)");
             $stmt->bindParam(":Username", $name);
             $stmt->bindParam(":Email", $email);
             $stmt->bindParam(":Messages", $message);
             $stmt->execute();
-            echo "<script>alert('$message');
+            $mail = new PHPMailer(true);
+
+            try {
+                $mail->SMTPDebug = 2;                                   
+                $mail->isSMTP();                                            
+                $mail->Host  = 'smtp.gmail.com;';                   
+                $mail->SMTPAuth = true;                         
+                $mail->Username = 'notesapp.php@gmail.com';             
+                $mail->Password = '';                       
+                $mail->SMTPSecure = 'tls';                          
+                $mail->Port  = 587;
+
+                $mail->setFrom('notesapp.php@gmail.com', 'Notes App');      
+                $mail->addAddress($email);
+                
+                $mail->isHTML(true);                                
+                $mail->Subject = 'NotesApp Contact';
+                $mail->Body = '<html><body><h1>Thank for contacting us '.$name.'</h1><h3>We will keep this in mind in the future: '.$message.'</h3><h3>Regards,</h3><br><h3>NotesApp Team</h3></body></html>';
+                $mail->send();
+                $prompt_message = "Thank you for contacting us";
+                echo "<script>alert('$prompt_message');
                     window.location.href='/MiniProject/NoteKeeper/home.php';
                 </script>";
+            } catch (Exception $e) {
+                $prompt_message = "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+                echo "<script>alert('$prompt_message');
+                    window.location.href='/MiniProject/NoteKeeper/home.php';
+                </script>";
+            }
         }
     }
 ?>
@@ -82,7 +111,6 @@
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <title>Contact</title>
-    <!-- <link rel="stylesheet" href="./contactstyle.css"> -->
     <link rel="stylesheet" type="text/css" href="<?php echo (($_COOKIE['style'] == "dark")?'contactstyle_dark':'contactstyle') ?>.css" />
 </head>
 
