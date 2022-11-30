@@ -130,7 +130,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-         <link rel="stylesheet" type="text/css" href="<?php echo (($_COOKIE['style'] == "dark")?'task_style_dark':'task_style') ?>.css" />
+         <link rel="stylesheet" type="text/css" href="<?php echo (($_COOKIE['style'] == "dark")?'taskstyle_dark':'taskstyle') ?>.css" />
         <title>Tasks</title>
     </head>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top" style="padding: 0.5% 0% 0.5% 7.5%;">
