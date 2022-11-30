@@ -1,0 +1,256 @@
+/* BASIC */
+@import url(https://fonts.googleapis.com/css?family=Poppins:300);
+
+body {
+  background: #38b6ff;
+  font-family: "Poppins", sans-serif;
+  margin-top: 10%;
+}
+
+/*Navbar css*/
+
+.navbar
+{
+  background-color: black;
+  margin: 0px 0px -0px 0px;
+}
+
+.navbar-light .navbar-nav .active>.nav-link {
+  color: rgb(125, 186, 255);
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #fff;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+  color: rgb(172, 209, 252);
+  text-decoration: underline;
+}
+
+.nav-item a
+{
+  padding-top:8px;
+}
+  
+  h2 {
+    font-size: 16px;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: inline-block;
+    margin: 40px 8px 10px 8px;
+    color: #56baed;
+  }
+  .card{
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+  }
+  .card-header{
+    font-size: 20px;
+    font-weight: 600;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+    padding: 20px;
+    background: #fff;
+  }
+  .card-body{
+    background: #fff;
+  }
+  
+  
+ 
+  /* ANIMATIONS */
+  
+  /* Simple CSS3 Fade-in-down Animation */
+  .fadeInDown {
+    animation-name: fadeInDown;
+    animation-duration: 1s;
+    animation-fill-mode: both;
+  }
+  
+  @-webkit-keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -100%, 0);
+    }
+    100% {
+      opacity: 1;
+      -webkit-transform: none;
+      transform: none;
+    }
+  }
+  
+  @keyframes fadeInDown {
+    0% {
+      opacity: 0;
+      transform: translate3d(0, -100%, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  /* STRUCTURE */
+  
+  .wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    min-height: 100%;
+    padding: 30px;
+  }
+  #create{
+    color: red;
+  }
+  #formContent {
+    border-radius: 10px 10px 10px 10px;
+    background:black;
+    padding: 30px;
+    width: 90%;
+    max-width: 450px;
+    position: relative;
+    padding: 0px;
+    box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+    text-align: center;
+  }
+  
+  #formFooter {
+    background:black;
+    border-top: 1px solid #dce8f1;
+    padding: 20px;
+    text-align: center;
+    border-radius: 0 0 10px 10px;
+  }
+  
+  .tasksbar{
+    background:black;
+    /* display: block; */
+    border-radius: 10px 10px 10px 10px;
+    text-align: center;
+    float: left;
+  }
+
+  .taskmenu
+  {
+    list-style: none;
+    display: inline-block;
+    text-align: left;
+    color:white;
+  }
+  .taskmenu li
+  {
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left:-5px;
+    font-size: 20px;
+  }
+
+  .delete a
+  {
+    text-decoration:none;
+    color:red;
+    font-size:15px;font-weight: bold;
+  }
+
+  .taskmenu input[type="checkbox"]{
+    margin:10px;
+  }
+  /* .taskmenu .delete{
+    background-color: #ff6161;
+    padding: 0px 1px 0px 1px;
+    margin-right: 20px;
+    color: #fff;
+    cursor: pointer;
+  } */
+.btn {
+    border-radius: 0px;
+    border-color: #343434;
+    background-color: #272424;
+}
+
+.body {
+    overflow-y: auto;
+    max-height: 670px;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+
+#icon {
+    color: rgb(196, 199, 199);
+    margin-left: 60%;
+    margin-top: -8%;
+}
+
+
+
+#icon1:hover,
+#icon2:hover,
+#icon3:hover {
+    color: rgb(41, 189, 189);
+}
+
+#logout:hover {
+    color: aqua;
+}
+
+/* FORM TYPOGRAPHY */
+  
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    background-color: #38b6ff;
+    border: none;
+    color: white;
+    padding: 15px 80px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    text-transform: uppercase;
+    font-size: 13px;
+    box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
+    border-radius: 5px 5px 5px 5px;
+    margin: 5px 20px 20px 20px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  input[type="button"]:hover,
+  input[type="submit"]:hover,
+  input[type="reset"]:hover {
+    background-color: #38b6ff;
+  }
+  
+  input[type="button"]:active,
+  input[type="submit"]:active,
+  input[type="reset"]:active {
+    transform: scale(0.95);
+  }
+  
+  input[type="text"] {
+    background-color: #f6f6f6;
+    border: none;
+    color: #0d0d0d;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 5px;
+    width: 85%;
+    border: 2px solid #f6f6f6;
+    transition: all 0.5s ease-in-out;
+    border-radius: 5px 5px 5px 5px;
+  }
+  
+  input[type="text"]:focus {
+    background-color: #fff;
+    border-bottom: 2px solid #38b6ff;
+  }
+  
+  input[type="text"]:placeholder {
+    color: #cccccc;
+  }
