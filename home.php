@@ -50,7 +50,10 @@
                         if(isset($_SESSION["username"])) {
                     ?>
                         <li class="nav-item">
-                            <a class="nav-link" href="./note.php">My Notes</a>
+                            <a class="nav-link" href="./notes.php">My Notes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./publicNotes.php">Public Notes</a>
                         </li>
                         <li class="nav-item">
                             <a class="logout" href="./logout.php"><span id="logout"><i class="fas fa-sign-out-alt" style="color: aliceblue; font-size:xx-large; padding: 5px;"></i></span></a>

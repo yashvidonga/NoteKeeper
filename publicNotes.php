@@ -66,54 +66,10 @@
          }
     }
 
-    $errNote = $errTitle = "";
-    $note = $title = "";
-    $errorCheck = TRUE;
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $note = $_POST['content'];
-        $title = $_POST['title'];
-        if (empty($note)) {
-            $errNote = "*Note Required";
-            $errorCheck = FALSE;
-        } else {
-            $note = test_input($note);
-            $errorCheck = TRUE;
-        }
-        if (empty($title)){
-            $errTitle = "*Title Required";
-            $errorCheck = FALSE;
-        } else {
-            $title = test_input($title);
-            $errorCheck = TRUE;
-        }
-        if ($errorCheck){
-            $message = "Note Created";
-            if(isset($_POST['title'])) {
-                $title = $_POST['title'];
-                $content = $_POST['content'];
-                $date = date('Y-m-d H:i:s');
-                if (isset($_POST['check'])){
-                    $check = 1;
-                } else{
-                    $check = 0;
-                }
-                $user = $_SESSION["username"];
-                $stmt = $pdo_conn->prepare("INSERT INTO notes VALUES (:Title, :Content, :PostDate, :Public, :Username)");
-                $stmt->bindParam(':Title', $title);
-                $stmt->bindParam(':Content', $content);
-                $stmt->bindParam(':PostDate', $date);
-                $stmt->bindParam(':Public', $check);
-                $stmt->bindParam(':Username', $user);
-                $stmt->execute();
-                echo "<script>alert('$message');</script>";
-            }
-        }
-    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
-
     <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -155,10 +111,10 @@
                     <?php
                         if(isset($_SESSION["username"])) {
                     ?>
-                        <li class="nav-item  active">
-                            <a class="nav-link" href="./note.php">My Notes</a>
-                        </li>
                         <li class="nav-item">
+                            <a class="nav-link" href="./notes.php">My Notes</a>
+                        </li>
+                        <li class="nav-item active">
                             <a class="nav-link" href="./publicNotes.php">Public Notes</a>
                         </li>
                         <li class="nav-item">
@@ -172,13 +128,14 @@
         </div>
     </nav>
     <body>
-        <div class="container" style="margin-top: 4%;">     
-                <h2>My notes</h2>
-                <div class="body">        
+        <div class="container" style="margin-top: 4%;">
+                <h2>Public notes</h2>
+                <div class="body">
                     <?php
                         $user = $_SESSION["username"];
-                        $pdo_statement = $pdo_conn->prepare("SELECT * FROM notes WHERE Username = :Username");
-                        $pdo_statement->bindParam(':Username', $user);
+                        $check = 1;
+                        $pdo_statement = $pdo_conn->prepare("SELECT * FROM notes WHERE Is_public = :public");
+                        $pdo_statement->bindParam(':public', $check);
                         $pdo_statement->execute();
                         $result = $pdo_statement->fetchAll();
                         if ($result) {
@@ -191,14 +148,12 @@
                                     delete($_GET['name']);
                                 }
                                 echo "<h2>" . $row['Title'] . "</h2>";
+                                echo "<p>By ". $row['Username'] ."</p>";
                                 echo "<p>" . $row['Content'] . "</p>";
                                 echo "<span class='date'>" . $row['Date'] . "</span>";
                                 echo "<div id='icon'>";
                                 echo '&nbsp <span id="icon1"><a id = "trash" href="?name='. $row['Title'] .'"><i class="fas fa-trash"></i></a></span>&nbsp &nbsp';
                                 echo '&nbsp &nbsp <span id="icon1"><a id = "trash" href="?name2='. $row['Title'] .'"><i class="fas fa-download"></i></a></span>&nbsp &nbsp';
-                                if ($row['Is_public'] == 1) {
-                                    echo "&nbsp &nbsp <span style='color: rgb(41, 189, 189);'><i class='fas fa-globe'></i></span>";
-                                }
                                 echo "</div>";
                                 echo "</div>";
                             }
@@ -207,25 +162,6 @@
                           }
                     ?>
                 </div>
-            <div class="row">
-                <form class="note-form" action='./notes.php' method="POST">
-                    <?php 
-                    // if($insert == true) {
-                    //     $message = "Note created successfully.";
-                    //     echo 
-                    //     "<script>alert('$message');
-                    //     </script>";
-                    // }     
-                    ?>
-                    <input type ="text" placeholder="Add a title..."  name="title" style="width: 85%; height: 5%;"/>
-                    <p class="error"><?php echo $errTitle;?></p>
-                    <textarea placeholder="Content" name="content" style="width: 85%; height: 50vh;"></textarea>
-                    <p class="error"><?php echo $errNote;?></p>
-                    <span style="padding: 1%;"><input type="checkbox" name="check" value="1">Make the Note Public</span>
-                    <br>
-                    <button>Create Note</button>
-                </form>
-            </div>
             
         </div>
     </body>

@@ -139,17 +139,20 @@
                     <a class="nav-link" href="./contact.php">Contact</a>
                 </li>
                 <?php
-                    if(isset($_SESSION["username"])) {
-                ?>
-                    <li class="nav-item">
-                    <a class="nav-link" href="./note.php">My Notes</a>
-                    </li>
-                    <li class="nav-item">
-                    <a class="logout" href="./logout.php"><span id="logout"><i class="fas fa-sign-out-alt" style="color: aliceblue; font-size:xx-large; padding: 5px;"></i></span></a>
-                    </li>
-                <?php
-                    }else echo "";
-                ?>
+                        if(isset($_SESSION["username"])) {
+                    ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./notes.php">My Notes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="./publicNotes.php">Public Notes</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="logout" href="./logout.php"><span id="logout"><i class="fas fa-sign-out-alt" style="color: aliceblue; font-size:xx-large; padding: 5px;"></i></span></a>
+                        </li>
+                    <?php
+                        }else echo "";
+                    ?>
             </ul>
         </div>
     </div>
